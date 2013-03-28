@@ -1,0 +1,269 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Thonburi, Helvetica, Tahoma, sans-serif;
+  font-size: 13px; }
+
+/*-------------------------
+ 									Variables
+ --------------------------*/
+/*-------------------------
+ 									Global
+ --------------------------*/
+.content {
+  z-index: 2;
+  width: 1044px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#thaipublica02 {
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0;
+}
+
+#map-control {
+  width: 259px;
+  height: 100%;
+  position: absolute;
+  top: 100px;
+  left: 30px;
+  background-color: #81CEE2;
+  color: #fff;
+}
+
+#piechart {
+  margin-top: -100px;
+  margin-left: -85px;
+}
+
+#svgmap {
+  margin-bottom: -4px;
+}
+
+#budget-controllers-header {
+  position: absolute;
+  top: 228px;
+  width: 100%;
+  text-align: center;
+  color: #0F6590;
+  background: url("../asset/bg-blue.png") no-repeat bottom center;
+  padding-bottom: 55px;
+}
+
+#budget-controllers-header h1 {
+  font-size: 10pt;
+  font-weight: normal;
+  margin: 0;
+}
+
+#budget-controllers-header h2 {
+  font-size: 13pt;
+  font-weight: normal;
+  margin: 0;
+}
+
+#budget-controllers {
+  width: 100%;
+  position: absolute;
+  top: 320px;
+  bottom: 0;
+  margin-bottom: 100px;
+  padding-bottom: 5px;
+  background-color: #4CA7C7;
+  font-weight: normal;
+}
+
+div.budget-controller {
+  padding: 0 10px 12px 10px;
+  background: url("../asset/line-blue.png") no-repeat center bottom;
+}
+
+div.budget-controller h3 {
+  margin: 3px 10px 5px 0px;
+  font-size: 10pt;
+  font-weight: normal;
+}
+
+div.budget-controller .amount-and-slider {
+  padding: 7px 15px 12px 15px;
+  background-color: #A3DDF2;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  -moz-box-shadow: 1px 1px 2px #358BA9;
+  -webkit-box-shadow: 1px 1px 2px #358BA9;
+  /*-webkit-box-shadow: 1px 1px 2px #025986;*/
+  box-shadow: 1px 1px 2px #358BA9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+}
+
+div.slider-unfocused {
+  height: 22px;
+  cursor: pointer;
+}
+
+div.amount-and-slider {
+  cursor: pointer;
+}
+
+div.amount-and-slider p.amount,
+div.slider-unfocused p.amount {
+  color: #0F6590;
+  font-size: 9pt;
+  font-weight: normal;
+  text-align: right;
+}
+
+div.amount-and-slider p.amount {
+  margin: 0 0 10px 0;
+}
+
+div.slider-unfocused p.amount {
+  position: absolute;
+  width: 220px;
+  margin: 2px 0 0 0;
+  padding: 0;
+}
+
+div.budget-controller .amount-and-slider .ui-slider-horizontal {
+  height: 5px;
+  background:url("../asset/line-adjust.png") no-repeat;
+  border: none;
+}
+
+div.budget-controller .amount-and-slider .ui-slider-handle {
+  background:url("../asset/btn-white.png");
+  border: none;
+  margin-top: -3px;
+  height: 22px;
+  width: 22px;
+  outline: none;
+  cursor: pointer;
+}
+
+div.budget-controller div.ui-progressbar {
+  background-color: #A3DDF2;
+  border: 0;
+
+  -moz-box-shadow: 1px 1px 2px #358BA9;
+  -webkit-box-shadow: 1px 1px 2px #358BA9;
+  /*-webkit-box-shadow: 1px 1px 2px #025986;*/
+  box-shadow: 1px 1px 2px #358BA9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+
+}
+
+div.budget-controller div.ui-corner-left {
+  background-color: #025986;
+  border: none;
+  height: 110%;
+}
+
+div#defence div.slider-unfocused div.ui-corner-left { background-color: #898989; }
+div#transport div.slider-unfocused div.ui-corner-left { background-color: #4F4F4F; }
+div#interior div.slider-unfocused div.ui-corner-left { background-color: #F9AB21; }
+div#education div.slider-unfocused div.ui-corner-left { background-color: #7467A3; }
+div#fund div.slider-unfocused div.ui-corner-left { background-color: #7DDD3A; }
+div#stateenterprise div.slider-unfocused div.ui-corner-left { background-color: #137699; }
+div#treasury div.slider-unfocused div.ui-corner-left { background-color: #DD5472; }
+div#foreignaffairs div.slider-unfocused div.ui-corner-left { background-color: #D3C807; }
+div#tourism div.slider-unfocused div.ui-corner-left { background-color: #DD527E; }
+div#socialdev div.slider-unfocused div.ui-corner-left { background-color: #D3A579; }
+div#agriculture div.slider-unfocused div.ui-corner-left { background-color: #EFE12E; }
+div#environment div.slider-unfocused div.ui-corner-left { background-color: #C1E281; }
+div#ict div.slider-unfocused div.ui-corner-left { background-color: #779169; }
+div#energy div.slider-unfocused div.ui-corner-left { background-color: #056B57; }
+div#commerce div.slider-unfocused div.ui-corner-left { background-color: #E4F9AF; }
+div#justice div.slider-unfocused div.ui-corner-left { background-color: #774920; }
+div#labor div.slider-unfocused div.ui-corner-left { background-color: #29CEC2; }
+div#culture div.slider-unfocused div.ui-corner-left { background-color: #025986; }
+div#science div.slider-unfocused div.ui-corner-left { background-color: #AA92B7; }
+div#publichealth div.slider-unfocused div.ui-corner-left { background-color: #E4F9AF; }
+div#industry div.slider-unfocused div.ui-corner-left { background-color: #F45111; }
+div#redcross div.slider-unfocused div.ui-corner-left { background-color: #05A8E8; }
+div#self div.slider-unfocused div.ui-corner-left { background-color: #C9536F; }
+div#primeministeroffice div.slider-unfocused div.ui-corner-left { background-color: #618210; }
+div#parliament div.slider-unfocused div.ui-corner-left { background-color: #A6E8CD; }
+div#court div.slider-unfocused div.ui-corner-left { background-color: #F4EBBE; }
+div#independent div.slider-unfocused div.ui-corner-left { background-color: #A32B45; }
+div#other div.slider-unfocused div.ui-corner-left { background-color: #025986; }
+
+div._mCS_1 .mCSB_container {
+  margin-right: 10px;
+}
+
+div._mCS_1 .mCSB_scrollTools .mCSB_dragger_bar {
+  width: 14px;
+  background: url("../asset/btn-scroll_bar.png") no-repeat center;
+}
+
+div._mCS_1 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar{
+  background: url("../asset/btn-scroll_bar.png") no-repeat center;
+}
+
+div._mCS_1 .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{
+  background: url("../asset/btn-scroll_bar.png") no-repeat center;
+}
+
+div.ministryinfo {
+  padding: 1ex;
+}
+
+div.ministryinfo img {
+  float: left;
+  padding: 10px;
+}
+
+div.ministryinfo h2 {
+  margin: 0;
+  padding: 0 0 0.7ex 0;
+  font-size: 15pt;
+  color: #000;
+}
+
+div.ministryinfo p {
+  margin: 0;
+  padding: 0 0 1em 0;
+  font-size: 10pt;
+  color: #999;
+}
+
+div.ministryinfo h3.pairheading {
+  margin: 0;
+  padding: 0;
+  font-size: 9pt;
+  font-weight: normal;
+  color: #999;
+}
+
+div.ministryinfo p.pairtext {
+  margin: 0;
+  padding: 0 0 1ex 0;
+  font-size: 12pt;
+  font-weight: bold;
+  color: #000;
+}
+
+div.ministryinfo p.legend {
+  margin: 0;
+  padding: 0;
+  font-size: 9pt;
+  color: #ccc;
+  clear: both;
+}
+
+div#cboxTopLeft, div#cboxTopCenter, div#cboxTopRight,
+div#cboxMiddleLeft, div#cboxMiddleRight, 
+div#cboxBottomLeft, div#cboxBottomCenter, div#cboxBottomRight {
+  opacity: 0.8;
+}
+
+div#cboxContent {
+  background-color: rgba(255, 255, 255, 0.8);
+}
