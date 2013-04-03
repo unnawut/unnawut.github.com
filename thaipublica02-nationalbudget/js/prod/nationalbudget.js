@@ -141,10 +141,13 @@ $(function() {
 
         // Initialize tooltips
         _.each(departments, function(dept) {
-            $("svg > g[id^=" + dept.english + "-] > g").tipsy({
+
+            // ":not([id^=enterprise-electric-])" is to exclude electric cables from having tooltips
+            $("svg > g[id^=" + dept.english + "-] > g:not([id^=enterprise-electric-]), svg > g[id^=" + dept.english + "-] > use").tipsy({
                 title: function() { return dept.thai; },
                 gravity: 's',
             });
+
         });
 
     });
