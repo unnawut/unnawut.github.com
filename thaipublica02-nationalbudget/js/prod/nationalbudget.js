@@ -45,7 +45,10 @@ $(function() {
                 min: dept.minBudget,
                 max: dept.maxBudget,
                 slide: function( event, ui ) {
-                    adjustBudget(dept, ui.value);
+                    adjustBudget(dept, ui.value, false);
+                },
+                stop: function( event, ui ) {
+                    adjustBudget(dept, ui.value, true);
                 }
             });
 
@@ -74,18 +77,15 @@ $(function() {
     };
 
     var render_map = function() {
+
         _.each(departments, function(dept) {
             // If mapLevels is defined, evaluate the budget and show/hide layers according to mapLevels
             if(dept.mapLevels) {
                 var rangeIndex = fallsInRange(dept.budget, dept.mapLevels);
                 var selectorSyntax = "";
 
-                // console.log(dept.english + " has mapLevels and " + 
-                //     dept.budget + " falls in index " + 
-                //     rangeIndex + "(" + dept.mapLevels[rangeIndex] + ")");
-
                 // Firstly, hide all layers of this department
-                $("svg > g[id^=" + dept.english + "-]", $("#svgmap")).hide();
+                $("#svgmap").find("svg > g[id^=" + dept.english + "-]").hide();
 
                 // Then show layers as needed
                 for(i = 0; i <= rangeIndex; i++) {
@@ -93,25 +93,36 @@ $(function() {
                     if(i != rangeIndex) selectorSyntax += ", ";
                 }
 
-                $(selectorSyntax).show();
+                $("#svgmap").find(selectorSyntax).show();
             }
         });
 
     }
 
     async.parallel([load_map, render_piechart, render_controllers], function (err, results) {
+        
+        // Initialize map
         render_map();
-        onBudgetClick(departments[0]);
 
+        // Initialize controllers view
+        _.each(departments, function(dept) {
+            $('#' + dept.english + " div.amount-and-slider").hide();
+            $('#' + dept.english + ' div.slider-unfocused').show();
+        });
+
+        // Initialize tooltips
         _.each(departments, function(dept) {
             $("svg > g[id^=" + dept.english + "-] > g").tipsy({
                 title: function() { return dept.thai; },
                 gravity: 's',
             });
         });
+
     });
 
-    var adjustBudget = function(dept, newBudget) {
+    var lastAdjustedTime = (new Date()).getTime();
+
+    var adjustBudget = function(dept, newBudget, forceRender) {
 
         // Set department budget to new budget amount
         dept.budget = newBudget;
@@ -121,13 +132,21 @@ $(function() {
             return memo + dept.budget 
         }, 0));
 
-        // console.log("Remaining budget to adjust: " + remainingBudget);
-
         var otherDepartments = _.without(departments, dept);
 
         // Adjust other departments' budget to reflect total sum
         adjustOtherDepartments(otherDepartments, remainingBudget);
 
+        // When adjustment is done, update the UI
+        _.each(departments, function(dept) {
+            $('#' + dept.english + " div.budget-slider").slider("option", "value", dept.budget);
+            $('#' + dept.english + " p.amount").text( formatMoney(dept.budget) );
+            $('#' + dept.english + " div.slider-unfocused").progressbar("option", "value", (dept.budget - dept.minBudget) / (dept.maxBudget - dept.minBudget));
+        })
+
+        // Render pie chart and map
+        render_piechart(function(){});
+        render_map();  
     };
 
     var adjustOtherDepartments = function(otherDepts, initialRemainingBudget) {
@@ -173,18 +192,6 @@ $(function() {
             });
 
         }
-
-        // When adjustment is done, update the UI
-        _.each(departments, function(dept) {
-            $('#' + dept.english + " div.budget-slider").slider("option", "value", dept.budget);
-            $('#' + dept.english + " p.amount").text( formatMoney(dept.budget) );
-            $('#' + dept.english + " div.slider-unfocused").progressbar("option", "value", (dept.budget - dept.minBudget) / (dept.maxBudget - dept.minBudget));
-        })
-
-        // Render pie chart
-        render_piechart(function(){});
-
-        render_map();
        
     }
 
