@@ -45,10 +45,22 @@ $(function() {
                 min: dept.minBudget,
                 max: dept.maxBudget,
                 slide: function( event, ui ) {
+                    // var startTime = (new Date()).getTime();
+
                     adjustBudget(dept, ui.value, false);
+
+                    // Render pie chart and map
+                    render_piechart(function(){});
+                    render_map();
+
+                    // console.log("Slide operation finished in: " + ((new Date()).getTime() - startTime) + "ms");
                 },
                 stop: function( event, ui ) {
                     adjustBudget(dept, ui.value, true);
+
+                    // Render pie chart and map
+                    render_piechart(function(){});
+                    render_map();  
                 }
             });
 
@@ -78,24 +90,41 @@ $(function() {
 
     var render_map = function() {
 
+        // var startTime = (new Date()).getTime();
+
         _.each(departments, function(dept) {
             // If mapLevels is defined, evaluate the budget and show/hide layers according to mapLevels
             if(dept.mapLevels) {
                 var rangeIndex = fallsInRange(dept.budget, dept.mapLevels);
-                var selectorSyntax = "";
 
-                // Firstly, hide all layers of this department
-                $("#svgmap").find("svg > g[id^=" + dept.english + "-]").hide();
+                var showSelector = '';
+                var hideSelector = '';
 
-                // Then show layers as needed
-                for(i = 0; i <= rangeIndex; i++) {
-                    selectorSyntax += "svg > g[id^=" + dept.english + "-" + (i + 1) + "]";
-                    if(i != rangeIndex) selectorSyntax += ", ";
+                for(i = 1; i <= dept.mapLevels.length; i++) {
+
+                    if(i <= (rangeIndex + 1)) {
+
+                        // Prepares DOM selector syntax for layers to be shown
+                        showSelector += "svg > g[id^=" + dept.english + "-" + i + "]";
+                        if(i != (rangeIndex + 1)) showSelector += ", ";
+
+                    } else {
+
+                        // Prepares DOM selector syntax for layers to be hidden
+                        hideSelector += "svg > g[id^=" + dept.english + "-" + i + "]";
+                        if(i != dept.mapLevels.length) hideSelector += ", ";
+
+                    }
+
                 }
 
-                $("#svgmap").find(selectorSyntax).show();
+                // Perform hide/show layers according to syntax prepared above
+                $("#svgmap").find(showSelector).css('display', '');
+                $("#svgmap").find(hideSelector).css('display', 'none');
             }
         });
+
+        // console.log("Finish render_map() within " + ((new Date()).getTime() - startTime) + "ms");
 
     }
 
@@ -106,8 +135,8 @@ $(function() {
 
         // Initialize controllers view
         _.each(departments, function(dept) {
-            $('#' + dept.english + " div.amount-and-slider").hide();
-            $('#' + dept.english + ' div.slider-unfocused').show();
+            $('#' + dept.english + " div.amount-and-slider").css('display', 'none');
+            $('#' + dept.english + ' div.slider-unfocused').css('display', '');
         });
 
         // Initialize tooltips
@@ -143,10 +172,6 @@ $(function() {
             $('#' + dept.english + " p.amount").text( formatMoney(dept.budget) );
             $('#' + dept.english + " div.slider-unfocused").progressbar("option", "value", (dept.budget - dept.minBudget) / (dept.maxBudget - dept.minBudget));
         })
-
-        // Render pie chart and map
-        render_piechart(function(){});
-        render_map();  
     };
 
     var adjustOtherDepartments = function(otherDepts, initialRemainingBudget) {
@@ -200,14 +225,14 @@ $(function() {
     var onBudgetClick = function(departmentToShow) {
         _.each(departments, function(dept) {
             // console.log("Hiding " + dept.english);
-            $('#' + dept.english + " div.amount-and-slider").hide();
+            $('#' + dept.english + " div.amount-and-slider").css('display', 'none');
         });
 
-        $('#' + departmentToShow.english + ' div.amount-and-slider').show();
-        $('#' + departmentToShow.english + ' div.slider-unfocused').hide();
+        $('#' + departmentToShow.english + ' div.amount-and-slider').css('display', '');
+        $('#' + departmentToShow.english + ' div.slider-unfocused').css('display', 'none');
 
         if(currentSelectedDepartment && currentSelectedDepartment.english != departmentToShow.english) {
-            $('#' + currentSelectedDepartment.english + ' div.slider-unfocused').show();
+            $('#' + currentSelectedDepartment.english + ' div.slider-unfocused').css('display', '');
         }
 
         currentSelectedDepartment = departmentToShow;
@@ -241,8 +266,8 @@ $(function() {
 
     var onBudgetReClick = function(departmentToHide) {
         // Hide the controller and show only budget
-        $('#' + departmentToHide.english + ' div.amount-and-slider').hide();
-        $('#' + departmentToHide.english + ' div.slider-unfocused').show();
+        $('#' + departmentToHide.english + ' div.amount-and-slider').css('display', 'none');
+        $('#' + departmentToHide.english + ' div.slider-unfocused').css('display', '');
 
         // Set all props back to fully opaque
         $("svg > g[id^=Layer ]", $("#svgmap")).fadeTo(0, 1.0);

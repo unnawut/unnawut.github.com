@@ -22,6 +22,8 @@ var fallsInRange = function(number, range) {
         }
     }
 
+    return 0;
+
 }
 
 Raphael.fn.pieChart = function (cx, cy, r, values, departments, stroke) {
