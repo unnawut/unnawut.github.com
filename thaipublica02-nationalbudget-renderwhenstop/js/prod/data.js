@@ -93,7 +93,7 @@ var departments = [
 		english: "fund", 
 		thai: "กองทุนและเงินทุนหมุนเวียน", 
 		budget: 214845460700,
-		color: "#7DDD3A",
+		color: "#7DD3AC",
 		editable: true,
 		minBudget: 107422730350,
 		maxBudget: 302148340700,
